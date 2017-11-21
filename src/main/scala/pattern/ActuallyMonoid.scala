@@ -10,7 +10,7 @@ import scalaz.Scalaz._
 
 // Note: SampleTypeClass is actualy the concept provided by Monoid
 // scalaz already provides the Monoid trait,
-// commonly-used implicit instances (such as Int, String) and syntactic sugar
+// commonly-used implicit instances (such as Monoid[Int], Monoid[String]) and syntactic sugar
 
 
 // Same as UseSampleTypeClassBySugar.polymorphicFunc

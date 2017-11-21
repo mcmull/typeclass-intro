@@ -8,7 +8,6 @@ case class Stock(ticker: String, date: String, price: Int)
 case class Stats(min: Min, max: Max, total: Int, noOfRecs: Int)
 
 // Problem: from the given stocks, find the min price, max price, summation of prices and no of stocks
-// by using Monoid
 object ProblemToSolve {
   val stocks = List(
     Stock("FAKE", "2012-01-01", 10000)
@@ -44,12 +43,18 @@ object ProblemToSolve {
     , Stock("LAKE", "2012-01-07",  5999)
   )
 
+  import StatsImplicits._ // provides Monoid[Stats] instance
+
+  // solution 1 - reuse UseMonoidBySugar.polymorphicFunc
   val statsList: List[Stats] = stocks.map { case Stock(_, _, p) =>
     Stats(Min(p), Max(p), p, 1)
   }
+  val answer1 = UseMonoidBySugar.polymorphicFunc(statsList)
 
-  import StatsImplicits._ // provides Monoid[Stats] instance, o.w. compilation fails for the following call
-  // reuse UseMonoidBySugar.polymorphicFunc
-  val accStats = UseMonoidBySugar.polymorphicFunc(statsList)
+  // solution 2
+  import scalaz.Scalaz._
+  val answer2 = stocks.foldLeft(mzero[Stats]){ case (stats, Stock(_, _, p)) =>
+    stats |+| Stats(Min(p), Max(p), p, 1)
+  }
 }
 

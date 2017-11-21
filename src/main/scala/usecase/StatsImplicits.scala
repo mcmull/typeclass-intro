@@ -7,7 +7,7 @@ import scalaz.Scalaz._
 
 object StatsImplicits {
   implicit val statsMonoid = new Monoid[Stats] {
-    import pattern.MonoidImplicits._ // provides Monoid[Min], Monoid[Max] to make the following call compiled
+    import pattern.MonoidImplicits._ // provides Monoid[Min], Monoid[Max]
 
     override def zero: Stats =
       Stats(mzero[Min], mzero[Max], mzero[Int], mzero[Int])
